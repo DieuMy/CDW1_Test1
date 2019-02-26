@@ -2,15 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Register - Worldskills Travel</title>
-    <!-- Fonts -->
-        <script type="text/javascript" rel="stylesheet" src="{{asset('/css/jquery-3.2.1.min.js')}}"></script>
-    
+    <title>Log In - Worldskills Travel</title>
     <script type="text/javascript" rel="stylesheet" src="{{asset('/sweetalert.min.js')}}"></script>
         <link rel="stylesheet" href="<?php echo url('/css/bootstrap.css')?>"/>
         <link rel="stylesheet" href="<?php echo url('/css/bootstrap.min.css')?>"/>
         <link href="<?php echo url('/css/style.css')?>" rel="stylesheet" type="text/css"/>
-</head>
 <body>
 <div class="wrapper">
     <header>
@@ -28,7 +24,6 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#">Welcome message</a></li>
                         <li><a href="#">Flights</a></li>
-                        <li><a href="{{route('login')}}">Log In</a></li>
                         <li><a href="{{route('create')}}">Register</a></li>
                     </ul>
                 </div>
@@ -39,41 +34,26 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 col-md-push-3">
-                    <h2>Join as a Wordskills Travel Member</h2>
-                    <p>
-                    @if ($errors->any)
-                        
-                        @foreach ($errors->all() as $error )
-                        <p style="color:red">{{ $error}}</p>
-                        @endforeach
-
-                    @endif
-                    @if(session()->has('success'))
-                    <p style="color:green">{{session('success')}}</p>
-                    @endif
-                </p>
+                    <h2>Log in to your account</h2>
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <form role="form" action="{{route('create-user')}}" method="post" id="register">
-                             {{csrf_field()}}
+                            <form role="form" action="{{route('checklogin')}}" method="post">
+                            {{csrf_field()}}
+                                @if($errors->has('errorlogin'))
+                                    <div class="alert alert-danger">
+                                        {{$errors->first('errorlogin')}}
+                                    </div>
+                                @endif
                                 <div class="form-group">
                                     <label class="control-label">Email Address:</label>
-                                    <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email address">
+                                    <input id="email" name="email" type="email" class="form-control" placeholder="Enter your email address">
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">Password:</label>
-                                    <input type="password" name="password" id="password" class="form-control" placeholder="Enter your password">
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Name:</label>
-                                    <input type="text" name="username" id="username" class="form-control" placeholder="Enter your name">
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Phone Number:</label>
-                                    <input type="tel" name="tel" id="tel" class="form-control" placeholder="Enter your phone number">
+                                    <input id="password" name="password" type="password" class="form-control" placeholder="Enter your password">
                                 </div>
                                 <div class="text-right">
-                                    <button type="submit" id="btn-register" class="btn btn-primary">Register</button>
+                                    <button type="submit" class="btn btn-primary">Log In</button>
                                 </div>
                             </form>
                         </div>

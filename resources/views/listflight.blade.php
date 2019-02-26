@@ -20,14 +20,14 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a href="index.html" class="navbar-brand">Worldskills Travel</a>
+                    <a href="{{url('/')}}" class="navbar-brand">Worldskills Travel</a>
                 </div>
                 <div class="collapse navbar-collapse" id="main-navbar">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#">Welcome message</a></li>
                         <li><a href="index.html">Flights</a></li>
                         <li><a href="login.html">Log In</a></li>
-                        <li><a href="register.html">Register</a></li>
+                        <li><a href="{{route('create')}}">Register</a></li>
                     </ul>
                 </div>
             </div>
@@ -47,7 +47,11 @@
                                     <div class="row">
                                         <div class="col-sm-3">
                                             <label class="control-label">From:</label>
-                                            <div><big class="time">18:45</big></div>
+                                            <div><big class="time">@foreach($city_list as $citylist)
+                                                @if($citylist->city_id == $flight->flight_list_from)
+                                                    {{$citylist->city_name}}
+                                                @endif
+                                            @endforeach</big></div>
                                             <div><span class="place">
                                             @foreach($city_list as $citylist)
                                                 @if($citylist->city_id == $flight->flight_list_from)
@@ -59,7 +63,8 @@
                                         <div class="col-sm-3">
                                             <label class="control-label">To:</label>
                                             <div><big class="time">02:55</big></div>
-                                            <div><span class="place">@foreach($city_list as $citylist)
+                                            <div><span class="place">
+                                            @foreach($city_list as $citylist)
                                                 @if($citylist->city_id == $flight->flight_list_to)
                                                     {{$citylist->city_name}}
                                                 @endif

@@ -22,14 +22,27 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a href="index.html" class="navbar-brand">Worldskills Travel</a>
+                    <a href="{{url('/')}}" class="navbar-brand">Worldskills Travel</a>
                 </div>
                 <div class="collapse navbar-collapse" id="main-navbar">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#">Welcome message</a></li>
-                        <li><a href="index.html">Flights</a></li>
-                        <li><a href="login.html">Log In</a></li>
-                        <li><a href="<?php echo url('/register')?>">Register</a></li>
+                        <li><a href="#">Flights</a></li>
+                        <li>
+                            <!-- @if(Session::get('login') == TRUE)
+                                <a href="{{route('logout')}}">Logout</a>
+                            @else
+                                <a href="{{route('login')}}">Login</a>
+                            @endif -->
+                            <a href="{{route('login')}}">Login</a>
+                        </li>
+                        <li><a href="{{route('create')}}">Register</a></li>
+                        <!-- <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">AAA<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{url('logout')}}">Logout</a></li>
+                            </ul>
+                        </li> -->   
                     </ul>
                 </div>
             </div>
