@@ -42,3 +42,5 @@ Route::get('/logout','UserController@logout')->name('logout');
 Route::get('detail', function () {
     return view('detail');
 });
+Route::get('/update/{id}','UserController@update')->name('update');
+Route::post('/edit','UserController@edit')->name('edit');

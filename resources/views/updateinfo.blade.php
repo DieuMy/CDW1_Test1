@@ -10,10 +10,6 @@
         <link rel="stylesheet" href="<?php echo url('/css/bootstrap.css')?>"/>
         <link rel="stylesheet" href="<?php echo url('/css/bootstrap.min.css')?>"/>
         <link href="<?php echo url('/css/style.css')?>" rel="stylesheet" type="text/css"/>
-        <!-- Latest compiled and minified CSS & JS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-        <script src="//code.jquery.com/jquery.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="wrapper">
@@ -30,12 +26,7 @@
                 </div>
                 <div class="collapse navbar-collapse" id="main-navbar">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Welcome 
-                            @if(Session::get('login') == TRUE)
-                                {{Session::get('name')}}
-                            @else
-                                message
-                            @endif</a></li>
+                        <li><a href="#">Welcome message</a></li>
                         <li><a href="#">Flights</a></li>
                         <li>
                             @if(Session::get('login') == TRUE)
@@ -45,13 +36,7 @@
                             @endif
                         </li>
                         <li><a href="{{route('create')}}">Register</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo Session::get('name') ?><b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="<?php echo url('/detail') ?>">Info</a></li>
-                                <li><a href="{{route('update',['id'=>$a->user_id])}}">Update</a></li>
-                            </ul>
-                        </li>   
+                         
                     </ul>
                 </div>
             </div>
@@ -59,9 +44,45 @@
     </header>
     <main>
         <div class="container">
-           <h3>Đã đăng nhập thành công</h3>
-           <p>{{$a->user_email}}</p>
-           <p>{{$a->user_name}}</p>
+           <form action="{{route('edit')}}" method="POST" role="form">
+           {{csrf_field()}}
+               <legend>Thay đổi thông tin</legend>
+           
+                <input type="hidden" name="userid" value="{{$user['user_id']}}">
+               <div class="form-group">
+                   <label for="">Name</label>
+                   <input type="text" id="name" value="{{$user['user_name']}}" name="name" class="form-control" id="" placeholder="Input username">
+               </div>
+               <div class="form-group">
+                   <label for="">Password</label>
+                   <input type="password" id="password" name="password" class="form-control" placeholder="Input password">
+               </div>
+           
+               <div class="form-group">
+                   <label for="">Telephone</label>
+                   <input type="text" value="{{$user['user_phone']}}" id="tel" name="tel" class="form-control" placeholder="Input telephone">
+               </div>
+<!-- 
+               <div class="form-group">
+                   <label for="">Gender</label>
+                    <select id="gender" name="gender">
+                        <option value="male">Male</option>
+                        <option value="female">FeMale</option>
+                    </select>
+               </div> -->
+               
+
+               <!-- <div class="form-group">
+                   <label for="">Birthdate</label>
+                   <input type="date" id="birth" name="birth" class="form-control" id="" placeholder="Input field">
+               </div> -->
+           
+                <!-- <div class="form-group">
+                   <label for="">Địa chỉ</label>
+                   <input type="text" id="address" name="address" class="form-control" id="" placeholder="Input field">
+               </div> -->
+               <button type="submit" class="btn btn-primary">Submit</button>
+           </form>
         </div>
     </main>
     </div>

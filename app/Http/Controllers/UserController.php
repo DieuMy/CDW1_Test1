@@ -68,14 +68,49 @@ class UserController extends Controller
         } else {
             $email = $request->input('email');
             $password = $request->input('password');
-            if(Auth::attempt(array('user_email'=>$email, 'password'=>$password))) {
-                Session::put('name', Auth::user()->user_name);
-                Session::put('login', TRUE);
-                return redirect()->intended('/detail');
-            } else {
-                $errors = new MessageBag(['errorlogin' => 'Email hoặc mật khẩu không đúng']);
-                return redirect()->back()->withInput()->withErrors($errors);
+            $data = User::where('user_email',$email)->first();
+            if($data->user_active == 0)
+            {
+                $minute = round((time() - strtotime( $data->user_last_access))/60);
+                if($minute <= 30)
+                {
+                    $errors = new MessageBag(['errorlogin' => "User blocked"]);
+                    return redirect()->back()->withInput()->withErrors($errors);
+                }else
+                {
+                    DB::table('users')->where('user_email',$email)->update(['user_active' => 1, 'user_attempt' => 0, 'user_last_access' => date('Y-m-d H:i:s'),]);
+                    return redirect()->back()->withInput();
+                }
+            }else
+            {
+                if(Auth::attempt(array('user_email'=>$email, 'password'=>$password))) {
+                    Session::put('name',$data->user_name);
+                    Session::put('login', TRUE);
+                    DB::table('users')
+                        ->where('user_email', $email)
+                        ->update(['user_attempt' => 0,
+                            'user_last_access'=>date('Y-m-d H:i:s'), ]);
+                    $a = Auth::user();
+                    return view('/detail',compact('a'));
+                } else {
+                    DB::table('users')
+                        ->where('user_email',$email)
+                        ->update(['user_attempt' => ($data->user_attempt)+1,
+                            'user_last_access'=>date('Y-m-d H:i:s'),]);
+
+                    if (($data->user_attempt)+1 > 3 )
+                    {
+                        DB::table('users')
+                            ->where('user_email', $email)
+                            ->update(['user_active' => 0,
+                                'user_last_access'=>date('Y-m-d H:i:s'),]);
+                        return redirect()->back()->withInput();
+                    }
+                    $errors = new MessageBag(['errorlogin' => 'Email hoặc mật khẩu không đúng']);
+                    return redirect()->back()->withInput()->withErrors($errors);
+                }
             }
+            
         }
     }
 
@@ -84,38 +119,26 @@ class UserController extends Controller
         Auth::logout();
         return redirect('login');
     }
+
+    public function update($user_id)
+    {
+        $user = User::find($user_id)->toArray();
+        return view('updateinfo',compact('user'));
+    }
+
+    public function edit(Request $request)
+    {
+        $user = User::find($request->userid);
+        $user->user_name = $request->name;
+        if($request->password == null)
+        {
+            $user->password = $user->password;
+        }else
+        {
+            $user->password = bcrypt($request->password);
+        } 
+        $user->user_phone = $request->tel;
+        $user->save();
+        return redirect()->route('update',['user_id'=>$request->userid])->with(['message'=> 'Update Success']);
+    }    
 }
-
-
-// public function postLogin(Request $request)
-//     {
-//         $validator = Validator::make($request->all(), [
-//             'email' => 'required|email',
-//             'password' => 'required|min:6'
-//         ],
-//             [
-//                 'email.required' => 'Email là trường bắt buộc',
-//                 'email.email' => 'Email không đúng định dạng',
-//                 'password.required' => 'Mật khẩu là trường bắt buộc',
-//                 'password.min' => 'Mật khẩu phải chứa ít nhất 6 ký tự',
-//             ]);
-
-//         if ($validator->fails()) {
-//             return redirect()->back()->withErrors($validator)->withInput();
-//         } else {
-//             $email = $request->input('email');
-//             $password = $request->input('password');
-
-//             $data = Users::where('email', $email)->first();
-//             if ($data) {
-//                 if (Hash::check($password, $data->password)) {
-//                     Session::put('name', $data->first_name);
-//                     Session::put('login', TRUE);
-//                     return redirect()->intended('/');
-//                 }
-//             } else {
-//                 $errors = new MessageBag(['errorlogin' => 'Email hoặc mật khẩu không đúng']);
-//                 return redirect()->back()->withInput()->withErrors($errors);
-//             }
-//         }
-//     }

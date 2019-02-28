@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1:3306
--- Thời gian đã tạo: Th2 26, 2019 lúc 03:05 PM
+-- Thời gian đã tạo: Th2 28, 2019 lúc 04:08 AM
 -- Phiên bản máy phục vụ: 5.7.21
 -- Phiên bản PHP: 5.6.35
 
@@ -127,20 +127,24 @@ CREATE TABLE IF NOT EXISTS `users` (
   `user_attempt` int(11) DEFAULT NULL,
   `user_create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `user_update_time` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `user_active` int(11) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`user_id`, `user_name`, `user_email`, `password`, `user_title`, `user_phone`, `user_date_of_birth`, `user_address`, `user_last_access`, `user_attempt`, `user_create_time`, `user_update_time`) VALUES
-(5, 'hoainam0654', 'my016@gmail.com', '$2y$10$rAPIp7RxG6yLkmPcD0ZbJ.6xfQPdVshpBPcx1/Ah8meT6aaZ/litm', NULL, '1234567890', NULL, NULL, NULL, NULL, '2019-02-26 06:57:47', NULL),
-(4, 'dieumii', 'my01@gmail.com', '$2y$10$Qf7R2OEqt8kBnvbv4SYaRepKR9TJ18zHLggSVRXasmU3rHHJ5b1Uy', NULL, '1234567890', NULL, NULL, NULL, NULL, '2019-02-26 06:50:51', NULL),
-(3, 'Hoainam', 'my0@gmail.com', '$2y$10$TGn6W3zKtXV6qYrIpCAXAOWAaeTeJPi1kWYS2I8imvKeIm64L2yf6', NULL, '1234567890', NULL, NULL, NULL, NULL, '2019-02-26 06:50:10', NULL),
-(6, 'dieumii', 'mymy@email.com', '$2y$10$GCZk7XNK8wGsr1xlOSesFuXw5M9IdeBhJaK/ligYt.myAsH793B4y', NULL, '1234567890', NULL, NULL, NULL, NULL, '2019-02-26 08:48:09', NULL),
-(7, 'dieumii', 'mymy@gmail.com', '$2y$10$x66VTY9N3RfZdbiG1bahGOYIIWR0PFnvJdTGRBc01y0ylKUXn8Mke', NULL, '1234567890', NULL, NULL, NULL, NULL, '2019-02-26 09:15:26', NULL),
-(8, 'dieumii', 'dieumy@gmail.com', '$2y$10$k9P/zXsAHX5bj.3zBxzTmeX9mVAQqXXkPK1zyQresQ/xiRjLaoxw.', NULL, '1234567890', NULL, NULL, NULL, NULL, '2019-02-26 10:15:15', NULL);
+INSERT INTO `users` (`user_id`, `user_name`, `user_email`, `password`, `user_title`, `user_phone`, `user_date_of_birth`, `user_address`, `user_last_access`, `user_attempt`, `user_create_time`, `user_update_time`, `updated_at`, `user_active`) VALUES
+(5, 'hoainam0654', 'my016@gmail.com', '$2y$10$rAPIp7RxG6yLkmPcD0ZbJ.6xfQPdVshpBPcx1/Ah8meT6aaZ/litm', NULL, '1234567890', NULL, NULL, NULL, NULL, '2019-02-26 06:57:47', NULL, NULL, NULL),
+(4, 'dieumii', 'my01@gmail.com', '$2y$10$Qf7R2OEqt8kBnvbv4SYaRepKR9TJ18zHLggSVRXasmU3rHHJ5b1Uy', NULL, '1234567890', NULL, NULL, NULL, NULL, '2019-02-26 06:50:51', NULL, NULL, NULL),
+(3, 'Hoainam', 'my0@gmail.com', '$2y$10$TGn6W3zKtXV6qYrIpCAXAOWAaeTeJPi1kWYS2I8imvKeIm64L2yf6', NULL, '1234567890', NULL, NULL, NULL, NULL, '2019-02-26 06:50:10', NULL, NULL, NULL),
+(6, 'dieumii', 'mymy@email.com', '$2y$10$GCZk7XNK8wGsr1xlOSesFuXw5M9IdeBhJaK/ligYt.myAsH793B4y', NULL, '0918798221', NULL, NULL, '15:16:36', 0, '2019-02-26 08:48:09', NULL, '2019-02-27 01:31:54', 1),
+(7, 'dieumii', 'mymy@gmail.com', '$2y$10$x66VTY9N3RfZdbiG1bahGOYIIWR0PFnvJdTGRBc01y0ylKUXn8Mke', NULL, '1234567890', NULL, NULL, '15:48:05', 4, '2019-02-26 09:15:26', NULL, NULL, 0),
+(9, 'dieumii', 'aaa@email.com', '$2y$10$dS4eQGC9hAKrYJKHUf.5FO9gNFuvGf6NkpdhDMlQjVwBACnwS4MCW', NULL, '1234567890', NULL, NULL, '15:44:10', 0, '2019-02-27 15:43:20', NULL, NULL, 1),
+(10, 'dieumii', 'aaaa@gmail.com', '$2y$10$xxT8U6O7XVtCD8SupWtvwOrjrTn.W/Zq7qJwC3GozVPhZTXEgU0B.', NULL, '1234567890', NULL, NULL, '15:44:39', 0, '2019-02-27 15:44:30', NULL, NULL, 1),
+(11, 'diệu my', 'test@gmail.com', '$2y$10$SoP5KfPJAJMgmu481nT/C.5fqzFOuMA24JcwPfs7TV.ukFZHIGUpS', NULL, '123456', NULL, NULL, '15:50:44', 0, '2019-02-27 15:48:54', NULL, '2019-02-27 08:50:08', 1);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
