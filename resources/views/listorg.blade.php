@@ -10,10 +10,6 @@
         <link rel="stylesheet" href="<?php echo url('/css/bootstrap.css')?>"/>
         <link rel="stylesheet" href="<?php echo url('/css/bootstrap.min.css')?>"/>
         <link href="<?php echo url('/css/style.css')?>" rel="stylesheet" type="text/css"/>
-        <!-- Latest compiled and minified CSS & JS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-        <script src="//code.jquery.com/jquery.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="wrapper">
@@ -30,28 +26,24 @@
                 </div>
                 <div class="collapse navbar-collapse" id="main-navbar">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Welcome 
-                            @if(Session::get('login') == TRUE)
-                                {{Session::get('name')}}
-                            @else
-                                message
-                            @endif</a></li>
+                        <li><a href="#">Welcome message</a></li>
                         <li><a href="#">Flights</a></li>
                         <li>
-                            @if(Session::get('login') == TRUE)
+                            <!-- @if(Session::get('login') == TRUE)
                                 <a href="{{route('logout')}}">Logout</a>
                             @else
                                 <a href="{{route('login')}}">Login</a>
-                            @endif
+                            @endif -->
+                            <a href="{{route('login')}}">Login</a>
                         </li>
                         <li><a href="{{route('create')}}">Register</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo Session::get('name') ?><b class="caret"></b></a>
+                        <li><a href="<?php echo url('listorg') ?>">Danh sách hãng bay</a></li>
+                        <!-- <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">AAA<b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="<?php echo url('/detail') ?>">Info</a></li>
-                                <li><a href="{{route('update',['id'=>$a->user_id])}}">Update</a></li>
+                                <li><a href="{{url('logout')}}">Logout</a></li>
                             </ul>
-                        </li>   
+                        </li> -->   
                     </ul>
                 </div>
             </div>
@@ -59,12 +51,35 @@
     </header>
     <main>
         <div class="container">
-           <h3>Đã đăng nhập thành công</h3>
-           <p>{{$a->email}}</p>
-           <p>{{$a->user_name}}</p>
+            <section>
+                <h2>Hãng bay của các quốc gia</h2>
+                @foreach ($b as $org) 
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form role="form" action="{{route('listflight')}}" id="search">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <h3><?php echo $org['nation_name'] ?></h3>(<span><?php echo $org['nation_code'] ?></span>)
+                                        <div><?php echo $org['name'] ?></div>                       
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                 @endforeach       
+            </section>
         </div>
     </main>
-    </div>
+    <footer>
+        <div class="container">
+            <p class="text-center">
+                Copyright &copy; 2017 | All Right Reserved
+            </p>
+        </div>
+    </footer>
+</div>
 
 </body>
 </html>

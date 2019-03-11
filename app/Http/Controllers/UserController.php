@@ -10,10 +10,6 @@ use App\Http\Models\User;
 use Illuminate\Support\MessageBag;
 class UserController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth',['except' => 'logout']);
-    // }
     public function show(){
         $users = User::all();
         return view('test',[
@@ -24,8 +20,9 @@ class UserController extends Controller
         return view('register');
     }
     public function createuser(Request $request){
+        $user = new User();
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
             'username' => 'required',
             'tel' => 'required',
@@ -39,12 +36,13 @@ class UserController extends Controller
                         ->withErrors($validator)
                         ->withInput();
         }else{
-            DB::table('users')->insert([
-                'user_email'=>$request->email,
-                'user_phone'=>$request->tel,
-                'password'=>bcrypt($request->password),
-                'user_name'=>$request->username,
-            ]);
+            // DB::table('users')->insert([
+            //     'email'=>$request->email,
+            //     'user_phone'=>$request->tel,
+            //     'password'=>bcrypt($request->password),
+            //     'user_name'=>$request->username,
+            // ]);
+            $user->insertUser($request->all());
             return redirect()->route('create')->with('success','Đăng ký thành công');
         }
 
@@ -68,7 +66,7 @@ class UserController extends Controller
         } else {
             $email = $request->input('email');
             $password = $request->input('password');
-            $data = User::where('user_email',$email)->first();
+            $data = User::where('email',$email)->first();
             if($data->user_active == 0)
             {
                 $minute = round((time() - strtotime( $data->user_last_access))/60);
@@ -78,30 +76,30 @@ class UserController extends Controller
                     return redirect()->back()->withInput()->withErrors($errors);
                 }else
                 {
-                    DB::table('users')->where('user_email',$email)->update(['user_active' => 1, 'user_attempt' => 0, 'user_last_access' => date('Y-m-d H:i:s'),]);
+                    DB::table('users')->where('email',$email)->update(['user_active' => 1, 'user_attempt' => 0, 'user_last_access' => date('Y-m-d H:i:s'),]);
                     return redirect()->back()->withInput();
                 }
             }else
             {
-                if(Auth::attempt(array('user_email'=>$email, 'password'=>$password))) {
+                if(Auth::attempt(array('email'=>$email, 'password'=>$password))) {
                     Session::put('name',$data->user_name);
                     Session::put('login', TRUE);
                     DB::table('users')
-                        ->where('user_email', $email)
+                        ->where('email', $email)
                         ->update(['user_attempt' => 0,
                             'user_last_access'=>date('Y-m-d H:i:s'), ]);
                     $a = Auth::user();
                     return view('/detail',compact('a'));
                 } else {
                     DB::table('users')
-                        ->where('user_email',$email)
+                        ->where('email',$email)
                         ->update(['user_attempt' => ($data->user_attempt)+1,
                             'user_last_access'=>date('Y-m-d H:i:s'),]);
 
                     if (($data->user_attempt)+1 > 3 )
                     {
                         DB::table('users')
-                            ->where('user_email', $email)
+                            ->where('email', $email)
                             ->update(['user_active' => 0,
                                 'user_last_access'=>date('Y-m-d H:i:s'),]);
                         return redirect()->back()->withInput();

@@ -10,6 +10,22 @@
         <link rel="stylesheet" href="<?php echo url('/css/bootstrap.css')?>"/>
         <link rel="stylesheet" href="<?php echo url('/css/bootstrap.min.css')?>"/>
         <link href="<?php echo url('/css/style.css')?>" rel="stylesheet" type="text/css"/>
+        <style type="text/css">
+            #hidden{
+                display: none;
+            }
+        </style>
+        <script type="text/javascript">
+        $(document).ready(function(){
+            $('#return').on('click',function(){
+                 $('#hidden').css('display','block');
+            }),
+                
+            $('#one-way').click(function(){
+                 $('#hidden').css('display','none');
+            })
+          });
+        </script>
 </head>
 <body>
 <div class="wrapper">
@@ -37,6 +53,7 @@
                             <a href="{{route('login')}}">Login</a>
                         </li>
                         <li><a href="{{route('create')}}">Register</a></li>
+                        <li><a href="<?php echo url('listorg') ?>">Danh sách hãng bay</a></li>
                         <!-- <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">AAA<b class="caret"></b></a>
                             <ul class="dropdown-menu">
@@ -58,6 +75,7 @@
                             <div class="row">
                                 <div class="col-sm-4">
                                     <h4 class="form-heading">1. Flight Destination</h4>
+
                                     <div class="form-group">
                                         <label class="control-label">From: </label>
                                         <select class="form-control" name="from" id="from">
@@ -89,7 +107,7 @@
                                         </div>
                                     </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" id="hidden">
                                         <label class="control-label">Return: </label>
                                         <input type="date" name="date_return" id="date_return" class="form-control" placeholder="Choose Return Date">
                                     </div>

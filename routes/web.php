@@ -30,7 +30,7 @@ Route::get('/','IndexController@index')->name('index');
 Route::get('/register','UserController@create')->name('create');
 Route::post('/register','UserController@createuser')->name('create-user');
 
-Route::get('/listflight', 'FlightListController@showlistflight'
+Route::get('/listflight', 'FlightDetailController@showlistflight'
 )->name('listflight');
 Route::get('/login','UserController@login')->name('login');
 Route::post('/login','UserController@checklogin')->name('checklogin');
@@ -44,3 +44,11 @@ Route::get('detail', function () {
 });
 Route::get('/update/{id}','UserController@update')->name('update');
 Route::post('/edit','UserController@edit')->name('edit');
+Route::get('/flightdetail', function () {
+    return view('flightdetail');
+});
+Route::get('/flightbook', function () {
+    return view('flightbook');
+});
+Route::get('/listorg','OrgController@index')->name('index');
+Route::get('/flightdetail/{id}','FlightDetailController@flight_detail')->name('flightdetail');
