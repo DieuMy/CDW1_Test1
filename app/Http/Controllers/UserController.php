@@ -66,7 +66,7 @@ class UserController extends Controller
         } else {
             $email = $request->input('email');
             $password = $request->input('password');
-            $data = User::where('email',$email)->first();
+            $data = User::getFirstUser_ByEmail($email);//User::where('email',$email)->first();
             if($data->user_active == 0)
             {
                 $minute = round((time() - strtotime( $data->user_last_access))/60);
@@ -76,7 +76,8 @@ class UserController extends Controller
                     return redirect()->back()->withInput()->withErrors($errors);
                 }else
                 {
-                    DB::table('users')->where('email',$email)->update(['user_active' => 1, 'user_attempt' => 0, 'user_last_access' => date('Y-m-d H:i:s'),]);
+                    // DB::table('users')->where('email',$email)->update(['user_active' => 1, 'user_attempt' => 0, 'user_last_access' => date('Y-m-d H:i:s'),]);
+                    User::updateActive($email);
                     return redirect()->back()->withInput();
                 }
             }else
@@ -84,25 +85,29 @@ class UserController extends Controller
                 if(Auth::attempt(array('email'=>$email, 'password'=>$password))) {
                     Session::put('name',$data->user_name);
                     Session::put('login', TRUE);
-                    DB::table('users')
-                        ->where('email', $email)
-                        ->update(['user_attempt' => 0,
-                            'user_last_access'=>date('Y-m-d H:i:s'), ]);
+                    // DB::table('users')
+                    //     ->where('email', $email)
+                    //     ->update(['user_attempt' => 0,
+                    //         'user_last_access'=>date('Y-m-d H:i:s'), ]);
+                    User::updateUser_Last_Attempt($email);
                     $a = Auth::user();
                     return view('/detail',compact('a'));
                 } else {
-                    DB::table('users')
-                        ->where('email',$email)
-                        ->update(['user_attempt' => ($data->user_attempt)+1,
-                            'user_last_access'=>date('Y-m-d H:i:s'),]);
+                    // DB::table('users')
+                    //     ->where('email',$email)
+                    //     ->update(['user_attempt' => ($data->user_attempt)+1,
+                    //         'user_last_access'=>date('Y-m-d H:i:s'),]);
+                    User::updateUser_Last_Attempt2($email,$data);
 
                     if (($data->user_attempt)+1 > 3 )
                     {
-                        DB::table('users')
-                            ->where('email', $email)
-                            ->update(['user_active' => 0,
-                                'user_last_access'=>date('Y-m-d H:i:s'),]);
-                        return redirect()->back()->withInput();
+                        // DB::table('users')
+                        //     ->where('email', $email)
+                        //     ->update(['user_active' => 0,
+                        //         'user_last_access'=>date('Y-m-d H:i:s'),]);
+                        User::updateUser_Last_Attempt($email);
+                        $errors = new MessageBag(['errorlogin' => 'Tài khoản đã bị khóa']);
+                        return redirect()->back()->withInput()->withErrors($errors);
                     }
                     $errors = new MessageBag(['errorlogin' => 'Email hoặc mật khẩu không đúng']);
                     return redirect()->back()->withInput()->withErrors($errors);

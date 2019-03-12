@@ -14,4 +14,17 @@
         {
         	return Flight::findOrFail($a);
         }
+
+        public static function searchFlight($request)
+        {
+            return Flight::where([
+                ['from', $request->from],
+                ['to', $request->to],
+                ['time_start','>=',$request->departure],
+                ['flight_type',$request->flight_type],
+
+                ])
+                ->leftJoin('orgs','flight_details.org_id','=','orgs.id')
+                ->get();
+        }
     }

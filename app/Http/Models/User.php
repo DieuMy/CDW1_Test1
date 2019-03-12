@@ -18,4 +18,23 @@
         		'user_name'=>$data['username'],
         	]);
         }
+
+        public static function getFirstUser_ByEmail($email){
+            return User::where('email',$email)->first();
+        }
+
+        public static function updateActive($email)
+        {
+             User::where('email',$email)->update(['user_active' => 1, 'user_attempt' => 0, 'user_last_access' => date('Y-m-d H:i:s'),]);
+        }
+
+        public static function updateUser_Last_Attempt($email){
+             User::where('email',$email)->update(['user_attempt' => 0,
+                            'user_last_access'=>date('Y-m-d H:i:s'), ]);
+        }
+
+         public static function updateUser_Last_Attempt2($email,$data){
+             User::where('email',$email)->update(['user_attempt' => ($data['user_attempt'])+1,
+                            'user_last_access'=>date('Y-m-d H:i:s'),]);
+        }
     }

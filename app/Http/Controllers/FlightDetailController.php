@@ -14,15 +14,16 @@ class FlightDetailController extends Controller
 {
     public function showlistflight(Request $request){
                 $city_lists = new CityList();
-                $flights = DB::table('flight_details')->where([
-                ['from', $request->from],
-                ['to', $request->to],
-                ['time_start','>=',$request->departure],
-                ['flight_type',$request->flight_type],
+                // $flights = DB::table('flight_details')->where([
+                // ['from', $request->from],
+                // ['to', $request->to],
+                // ['time_start','>=',$request->departure],
+                // ['flight_type',$request->flight_type],
 
-                ])
-                ->leftJoin('orgs','flight_details.org_id','=','orgs.id')
-                ->get();
+                // ])
+                // ->leftJoin('orgs','flight_details.org_id','=','orgs.id')
+                // ->get();
+                $flights = Flight::searchFlight($request);
                  $city_list = $city_lists->showCity(); 
                 // $city_list = DB::table('city')->get();
                 // dd($flight_list);
