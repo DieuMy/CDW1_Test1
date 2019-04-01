@@ -50,5 +50,8 @@ Route::get('/flightdetail', function () {
 Route::get('/flightbook', function () {
     return view('flightbook');
 });
-Route::get('/listorg','OrgController@index')->name('index');
+Route::get('/listorg','OrgController@index')->name('listorg');
 Route::get('/flightdetail/{id}','FlightDetailController@flight_detail')->name('flightdetail');
+Route::get('/listairport','AirportController@index')->name('listairport');
+Route::get('/createflight','FlightDetailController@createFlight')->name('createflight');
+Route::post('/createflight','FlightDetailController@create_flight')->name('create-flight');

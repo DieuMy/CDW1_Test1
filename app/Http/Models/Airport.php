@@ -7,7 +7,8 @@
         
         public function city()
         {
-            return $this->hasOne('App\Http\Models\CityList','airport_id');
+            return $this->belongsTo('App\Http\Models\CityList','city_id');
         }
+
 
     }

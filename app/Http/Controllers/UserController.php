@@ -62,12 +62,19 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
+             $errors = new MessageBag(['errorlogin' => "Email or Password wrong"]);
             return redirect()->back()->withErrors($validator)->withInput();
         } else {
             $email = $request->input('email');
             $password = $request->input('password');
-            $data = User::getFirstUser_ByEmail($email);//User::where('email',$email)->first();
-            if($data->user_active == 0)
+            $data = User::getFirstUser_ByEmail($email);// $data = User::where('email',$email)->first();
+            if(!$data)
+            {
+                $errors = new MessageBag(['errorlogin' => "Email or Password wrong"]);
+                return redirect()->back()->withErrors($validator)->withInput();
+            }else
+            {
+                if($data->user_active == 0)
             {
                 $minute = round((time() - strtotime( $data->user_last_access))/60);
                 if($minute <= 30)
@@ -113,6 +120,8 @@ class UserController extends Controller
                     return redirect()->back()->withInput()->withErrors($errors);
                 }
             }
+            }
+            
             
         }
     }

@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="<?php echo url('/css/bootstrap.css')?>"/>
         <link rel="stylesheet" href="<?php echo url('/css/bootstrap.min.css')?>"/>
         <link href="<?php echo url('/css/style.css')?>" rel="stylesheet" type="text/css"/>
+        
 <body>
 <div class="wrapper">
     <header>
@@ -71,6 +72,7 @@
     </footer>
 </div>
 <!--scripts-->
+
 <script type="text/javascript" src="assets/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
 </body>

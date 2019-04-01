@@ -31,6 +31,7 @@
                         <li><a href="index.html">Flights</a></li>
                         <li><a href="login.html">Log In</a></li>
                         <li><a href="{{route('create')}}">Register</a></li>
+                        <li><a href="<?php echo url('listorg') ?>">Danh sách hãng bay</a></li>
                     </ul>
                 </div>
             </div>
@@ -66,7 +67,7 @@
                                             <div><span class="place">
                                             @foreach($city_list as $citylist)
                                                 @if($citylist->city_id == $flight->from)
-                                                    {{$citylist->city_name}}
+                                                    {{$citylist->airport_name}}
                                                 @endif
                                             @endforeach
                                             </span></div>
@@ -77,7 +78,7 @@
                                             <div><span class="place">
                                             @foreach($city_list as $citylist)
                                                 @if($citylist->city_id == $flight->to)
-                                                    {{$citylist->city_name}}
+                                                    {{$citylist->airport_name}}
                                                 @endif
                                             @endforeach</span></div>
                                         </div>

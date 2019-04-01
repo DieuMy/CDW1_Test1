@@ -6,27 +6,11 @@
     <!-- Fonts -->
     <script type="text/javascript" rel="stylesheet" src="{{asset('/css/jquery-3.2.1.min.js')}}"></script>
     <script type="text/javascript" rel="stylesheet" src="{{asset('/js/index_btn_search.js')}}"></script>
-    
+    <script type="text/javascript" rel="stylesheet" src="{{asset('/js/create_flight.js')}}"></script>
     <script type="text/javascript" rel="stylesheet" src="{{asset('/sweetalert.min.js')}}"></script>
         <link rel="stylesheet" href="<?php echo url('/css/bootstrap.css')?>"/>
         <link rel="stylesheet" href="<?php echo url('/css/bootstrap.min.css')?>"/>
         <link href="<?php echo url('/css/style.css')?>" rel="stylesheet" type="text/css"/>
-        <style type="text/css">
-            #hidden{
-                display: none;
-            }
-        </style>
-        <script type="text/javascript">
-        $(document).ready(function(){
-            $('#return').on('click',function(){
-                 $('#hidden').css('display','block');
-            }),
-                
-            $('#one-way').click(function(){
-                 $('#hidden').css('display','none');
-            })
-          });
-        </script>
 </head>
 <body>
 <div class="wrapper">
@@ -56,7 +40,6 @@
                         <li><a href="{{route('create')}}">Register</a></li>
                         <li><a href="<?php echo url('listorg') ?>">Danh sách hãng bay</a></li>
                         <li><a href="<?php echo url('listairport') ?>">Danh sách sân bay</a></li>
-                        <li><a href="<?php echo url('createflight') ?>">Tạo chuyến bay</a></li>
                         <!-- <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">AAA<b class="caret"></b></a>
                             <ul class="dropdown-menu">
@@ -70,30 +53,55 @@
     </header>
     <main>
         <div class="container">
+        <p>
+                    @if ($errors->any)
+                        
+                        @foreach ($errors->all() as $error )
+                        <p style="color:red">{{ $error}}</p>
+                        @endforeach
+
+                    @endif
+                    @if(session()->has('success'))
+                    <p style="color:green">{{session('success')}}</p>
+                    @endif
+                </p>
             <section>
-                <h3>Flight Booking</h3>
+                <h3>Create Flight</h3>
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <form role="form" action="{{route('listflight')}}" id="search">
+                        <form role="form" action="{{route('create-flight')}}" method="post" id="create">
+                        {{csrf_field()}}
                             <div class="row">
                                 <div class="col-sm-4">
                                     <h4 class="form-heading">1. Flight Destination</h4>
                                     <div class="form-group">
+                                   
                                         <label class="control-label">From: </label>
                                         <select class="form-control" name="from" id="from">
-                                        @foreach ($citys as $b)  
-                                            <option value="<?php echo $b['city_id'];?>"><?php echo $b['city_name'];?></option>
-                                        @endforeach
-                                        </select>                                       
+                                         @foreach($citys as $a)
+                                         <option value="<?php echo $a->city_id ?>"><?php echo $a->city_name?></option>
+                                         @endforeach
+                                        </select>   
+                                    
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label">To: </label>
                                         <select class="form-control" name="to" id="to">
-                                            @foreach ($citys as $b)  
-                                            <option value="<?php echo $b['city_id'];?>"><?php echo $b['city_name'];?></option>
-                                        @endforeach
+                                            @foreach($citys as $a)
+                                         <option value="<?php echo $a->city_id ?>"><?php echo $a->city_name?></option>
+                                         @endforeach
                                         </select>       
                                     </div>
+                                    <!-- Hãng bay -->
+                                    <div class="form-group">
+                                        <label class="control-label">Org</label>
+                                        <select class="form-control" name="org" id="org">
+                                            @foreach($orgs as $a)
+                                            <option value="<?php echo $a->id ?>"><?php echo $a->name?></option>
+                                         @endforeach
+                                        </select>       
+                                    </div>
+                                    
                                 </div>
                                 <div class="col-sm-4">
                                     <h4 class="form-heading">2. Date of Flight</h4>
@@ -102,46 +110,43 @@
                                         <input type="date" name="departure" id="departure" class="form-control" placeholder="Choose Departure Date">
                                     </div>
                                     <div class="form-group">
-                                        <div class="form-group">
-                                        <div class="radio">
-                                            <label><input type="radio" id="one-way" name="flight_type" checked value="one-way" >One Way</label>
-                                            <label><input type="radio" id="return" name="flight_type" value="return">Return</label>
-                                        </div>
+                                        <label class="control-label">End: </label>
+                                        <input type="date" name="end" id="end" class="form-control" placeholder="Choose End Date">
                                     </div>
-                                    </div>
-                                    <div class="form-group" id="hidden">
+                                  
+                                    <div class="form-group">
                                         <label class="control-label">Return: </label>
                                         <input type="date" name="date_return" id="date_return" class="form-control" placeholder="Choose Return Date">
                                     </div>
+                                      <div class="form-group">
+                                        <div class="form-group">
+                                            <div class="radio">
+                                                <label><input type="radio" id="one-way" name="flight_type" checked value="one-way" >One Way</label>
+                                                <label><input type="radio" id="return" name="flight_type" value="return">Return</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-4">
-                                    <h4 class="form-heading">3. Search Flights</h4>
+                                    <h4 class="form-heading">3. Create Flights</h4>
                                     <div class="form-group">
                                         <label class="control-label">Total Person: </label>
-                                        <select class="form-control" id="total-person" name="total-person">
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
-                                            <option value="9">9</option>
-                                            <option value="10">10</option>
-                                        </select>
+                                            <input type="text" name="total" id="total" class="form-control">
+                                    </div>
+                                    <!-- MÃ chuyến bay -->
+                                    <div class="form-group">
+                                        <label class="control-label">Code Flight</label>
+                                        <input type="text" name="code" id="code" class="form-control">
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label">Flight Class: </label>
-                                        <select class="form-control" id="flight-class">
-                                            <option value="economy">Economy</option>
-                                            <option value="business">Business</option>
-                                            <option value="premium-economy">Premium Economy</option>
-                                        </select>
+                                        <label class="control-label">Price</label>
+                                        <input type="text" name="price" id="price" class="form-control">
                                     </div>
+                                    <br>    
                                     <div class="form-group">
-                                        <button type="submit" id="btn-search" class="btn btn-primary btn-block">Search Flights</button>
+                                        <button type="submit" id="btnCreate" class="btn btn-primary btn-block">Create Flights</button>
                                     </div>
+                                    
                                 </div>
                             </div>
                         </form>

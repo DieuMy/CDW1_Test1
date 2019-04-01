@@ -2,10 +2,10 @@
 -- version 4.7.9
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: Mar 11, 2019 at 04:52 PM
--- Server version: 5.7.21
--- PHP Version: 5.6.35
+-- Máy chủ: 127.0.0.1:3306
+-- Thời gian đã tạo: Th4 01, 2019 lúc 05:33 PM
+-- Phiên bản máy phục vụ: 5.7.21
+-- Phiên bản PHP: 7.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `cdw_flights`
+-- Cơ sở dữ liệu: `cdw_flights`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `airport`
+-- Cấu trúc bảng cho bảng `airport`
 --
 
 DROP TABLE IF EXISTS `airport`;
@@ -33,25 +33,27 @@ CREATE TABLE IF NOT EXISTS `airport` (
   `airport_id` int(11) NOT NULL AUTO_INCREMENT,
   `airport_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nation_id` int(11) NOT NULL,
+  `city_id` int(11) NOT NULL,
   PRIMARY KEY (`airport_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `airport`
+-- Đang đổ dữ liệu cho bảng `airport`
 --
 
-INSERT INTO `airport` (`airport_id`, `airport_name`, `nation_id`) VALUES
-(1, 'Sân bay Bến Tre', 1),
-(2, 'Sân Bay Nha Trang', 1),
-(3, 'Sân bay Sapa', 1),
-(4, 'Sân bay Phan Thiết', 1),
-(5, 'Sân Bay HongKong', 2),
-(6, 'Sân Bay MaCao', 2);
+INSERT INTO `airport` (`airport_id`, `airport_name`, `nation_id`, `city_id`) VALUES
+(1, 'Sân bay Bến Tre', 1, 1),
+(2, 'Sân Bay Nha Trang', 1, 2),
+(3, 'Sân bay Sapa', 1, 3),
+(4, 'Sân bay Phan Thiết', 1, 4),
+(5, 'Sân Bay HongKong', 2, 5),
+(6, 'Sân Bay MaCao', 2, 6),
+(8, 'Sân Bây New Yord', 4, 7);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `book`
+-- Cấu trúc bảng cho bảng `book`
 --
 
 DROP TABLE IF EXISTS `book`;
@@ -63,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `book` (
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `book`
+-- Đang đổ dữ liệu cho bảng `book`
 --
 
 INSERT INTO `book` (`id`, `user_id`, `total`) VALUES
@@ -72,7 +74,7 @@ INSERT INTO `book` (`id`, `user_id`, `total`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `book_detail`
+-- Cấu trúc bảng cho bảng `book_detail`
 --
 
 DROP TABLE IF EXISTS `book_detail`;
@@ -89,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `book_detail` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `chairs`
+-- Cấu trúc bảng cho bảng `chairs`
 --
 
 DROP TABLE IF EXISTS `chairs`;
@@ -105,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `chairs` (
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `chairs`
+-- Đang đổ dữ liệu cho bảng `chairs`
 --
 
 INSERT INTO `chairs` (`id`, `flight_detail_id`, `seat_type_id`, `created_at`, `updated_at`) VALUES
@@ -115,34 +117,34 @@ INSERT INTO `chairs` (`id`, `flight_detail_id`, `seat_type_id`, `created_at`, `u
 -- --------------------------------------------------------
 
 --
--- Table structure for table `city`
+-- Cấu trúc bảng cho bảng `city`
 --
 
 DROP TABLE IF EXISTS `city`;
 CREATE TABLE IF NOT EXISTS `city` (
   `city_id` int(11) NOT NULL AUTO_INCREMENT,
   `city_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `airport_id` int(11) DEFAULT NULL,
   `nation_id` int(11) NOT NULL,
   PRIMARY KEY (`city_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `city`
+-- Đang đổ dữ liệu cho bảng `city`
 --
 
-INSERT INTO `city` (`city_id`, `city_name`, `airport_id`, `nation_id`) VALUES
-(1, 'Bến Tre', 1, 1),
-(2, 'Nha Trang', 2, 1),
-(3, 'Sapa', NULL, 1),
-(4, 'Phan Thiết', 4, 1),
-(5, 'HongKong', 5, 2),
-(6, 'Ma cao', 6, 2);
+INSERT INTO `city` (`city_id`, `city_name`, `nation_id`) VALUES
+(1, 'Bến Tre', 1),
+(2, 'Nha Trang', 1),
+(3, 'Sapa', 1),
+(4, 'Phan Thiết', 1),
+(5, 'HongKong', 2),
+(6, 'Ma cao', 2),
+(7, 'NewYord', 4);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `customer`
+-- Cấu trúc bảng cho bảng `customer`
 --
 
 DROP TABLE IF EXISTS `customer`;
@@ -157,7 +159,7 @@ CREATE TABLE IF NOT EXISTS `customer` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `flight_details`
+-- Cấu trúc bảng cho bảng `flight_details`
 --
 
 DROP TABLE IF EXISTS `flight_details`;
@@ -170,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `flight_details` (
   `time_start` timestamp NOT NULL,
   `time_end` timestamp NULL DEFAULT NULL,
   `time_return` timestamp NOT NULL,
-  `price` int(11) NOT NULL,
+  `price` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `flight_type` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -181,21 +183,26 @@ CREATE TABLE IF NOT EXISTS `flight_details` (
   KEY `flight_details_org_id_foreign` (`org_id`),
   KEY `flight_details_from_foreign` (`from`),
   KEY `flight_details_to_foreign` (`to`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `flight_details`
+-- Đang đổ dữ liệu cho bảng `flight_details`
 --
 
 INSERT INTO `flight_details` (`id`, `org_id`, `code`, `from`, `to`, `time_start`, `time_end`, `time_return`, `price`, `created_at`, `updated_at`, `flight_type`, `transit`, `total`) VALUES
 (1, 1, 'CB1', 1, 2, '2019-02-28 21:53:57', '2019-02-28 23:00:00', '2019-02-28 22:53:57', 1500000, '2019-02-28 21:53:57', '2019-02-28 21:53:57', 'one-way', 0, NULL),
-(2, 2, 'CB2', 1, 2, '2019-02-28 21:53:57', NULL, '2019-03-01 22:53:57', 2000000, '2019-02-28 21:53:57', '2019-02-28 21:53:57', 'return', 0, NULL),
-(3, 1, 'CB3', 1, 2, '2019-03-01 17:00:00', NULL, '2019-03-02 17:00:00', 1200000, NULL, NULL, 'return', 0, NULL);
+(2, 2, 'CB2', 1, 2, '2019-02-28 21:53:57', '2019-03-01 00:00:00', '2019-03-01 22:53:57', 2000000, '2019-02-28 21:53:57', '2019-02-28 21:53:57', 'return', 0, NULL),
+(3, 1, 'CB3', 1, 2, '2019-03-01 17:00:00', '2019-03-01 21:00:00', '2019-03-02 17:00:00', 1200000, NULL, NULL, 'return', 0, NULL),
+(4, 2, 'CB4', 2, 4, '2019-03-02 18:00:00', '2019-03-04 17:00:00', '2019-03-08 17:00:00', 10000000, NULL, NULL, 'return', NULL, NULL),
+(6, 1, 'xc', 1, 3, '2019-02-28 17:00:00', '2019-03-01 17:00:00', '2019-03-02 17:00:00', 12, NULL, NULL, 'return', NULL, 12),
+(7, 1, 'aaa', 2, 5, '2019-02-28 17:00:00', '2019-03-01 17:00:00', '2019-03-02 17:00:00', 1200, NULL, NULL, 'one-way', NULL, 100),
+(8, 2, 'Abb', 4, 6, '2019-04-23 17:00:00', '2019-04-18 17:00:00', '2019-04-10 17:00:00', 1200, NULL, NULL, 'return', NULL, 12),
+(9, 1, 'ABC', 1, 2, '2019-04-18 17:00:00', '2019-04-19 17:00:00', '2019-04-20 17:00:00', 1200, NULL, NULL, 'return', NULL, 12);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `migrations`
+-- Cấu trúc bảng cho bảng `migrations`
 --
 
 DROP TABLE IF EXISTS `migrations`;
@@ -207,7 +214,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
 ) ENGINE=MyISAM AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `migrations`
+-- Đang đổ dữ liệu cho bảng `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
@@ -219,7 +226,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `nation`
+-- Cấu trúc bảng cho bảng `nation`
 --
 
 DROP TABLE IF EXISTS `nation`;
@@ -227,23 +234,24 @@ CREATE TABLE IF NOT EXISTS `nation` (
   `nation_id` int(11) NOT NULL AUTO_INCREMENT,
   `nation_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nation_code` varchar(31) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `country_id` varchar(55) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`nation_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `nation`
+-- Đang đổ dữ liệu cho bảng `nation`
 --
 
-INSERT INTO `nation` (`nation_id`, `nation_name`, `nation_code`) VALUES
-(1, 'Việt Nam', 'VN'),
-(2, 'Trung Quốc', 'TQ'),
-(3, 'Nhật Bản', 'JP'),
-(4, 'American', 'USA');
+INSERT INTO `nation` (`nation_id`, `nation_name`, `nation_code`, `country_id`) VALUES
+(1, 'Việt Nam', 'VN', '2,3'),
+(2, 'Trung Quốc', 'TQ', '1,3,4'),
+(3, 'Nhật Bản', 'JP', '1,4'),
+(4, 'American', 'USA', '2,4');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `orgs`
+-- Cấu trúc bảng cho bảng `orgs`
 --
 
 DROP TABLE IF EXISTS `orgs`;
@@ -259,7 +267,7 @@ CREATE TABLE IF NOT EXISTS `orgs` (
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `orgs`
+-- Đang đổ dữ liệu cho bảng `orgs`
 --
 
 INSERT INTO `orgs` (`id`, `code`, `name`, `created_at`, `updated_at`, `nation_id`) VALUES
@@ -269,7 +277,7 @@ INSERT INTO `orgs` (`id`, `code`, `name`, `created_at`, `updated_at`, `nation_id
 -- --------------------------------------------------------
 
 --
--- Table structure for table `seat_types`
+-- Cấu trúc bảng cho bảng `seat_types`
 --
 
 DROP TABLE IF EXISTS `seat_types`;
@@ -284,7 +292,7 @@ CREATE TABLE IF NOT EXISTS `seat_types` (
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `seat_types`
+-- Đang đổ dữ liệu cho bảng `seat_types`
 --
 
 INSERT INTO `seat_types` (`id`, `name`, `total`, `created_at`, `updated_at`) VALUES
@@ -295,7 +303,25 @@ INSERT INTO `seat_types` (`id`, `name`, `total`, `created_at`, `updated_at`) VAL
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Cấu trúc bảng cho bảng `transit`
+--
+
+DROP TABLE IF EXISTS `transit`;
+CREATE TABLE IF NOT EXISTS `transit` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `transit_city` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `transit_departure_date` timestamp NOT NULL,
+  `transit_lading_date` timestamp NOT NULL,
+  `flight_detail_id` int(11) NOT NULL,
+  `create_at` timestamp NOT NULL,
+  `updated_at` timestamp NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `users`
 --
 
 DROP TABLE IF EXISTS `users`;
@@ -315,23 +341,24 @@ CREATE TABLE IF NOT EXISTS `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `user_active` int(11) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `users`
+-- Đang đổ dữ liệu cho bảng `users`
 --
 
 INSERT INTO `users` (`user_id`, `user_name`, `email`, `password`, `user_title`, `user_phone`, `user_date_of_birth`, `user_address`, `user_last_access`, `user_attempt`, `user_create_time`, `user_update_time`, `updated_at`, `user_active`) VALUES
 (5, 'hoainam0654', 'my016@gmail.com', '$2y$10$rAPIp7RxG6yLkmPcD0ZbJ.6xfQPdVshpBPcx1/Ah8meT6aaZ/litm', NULL, '1234567890', NULL, NULL, NULL, NULL, '2019-02-26 06:57:47', NULL, NULL, NULL),
 (4, 'dieumii', 'my01@gmail.com', '$2y$10$Qf7R2OEqt8kBnvbv4SYaRepKR9TJ18zHLggSVRXasmU3rHHJ5b1Uy', NULL, '1234567890', NULL, NULL, NULL, NULL, '2019-02-26 06:50:51', NULL, NULL, NULL),
 (3, 'Hoainam', 'my0@gmail.com', '$2y$10$TGn6W3zKtXV6qYrIpCAXAOWAaeTeJPi1kWYS2I8imvKeIm64L2yf6', NULL, '1234567890', NULL, NULL, NULL, NULL, '2019-02-26 06:50:10', NULL, NULL, NULL),
-(6, 'dieumii', 'mymy@email.com', '$2y$10$GCZk7XNK8wGsr1xlOSesFuXw5M9IdeBhJaK/ligYt.myAsH793B4y', NULL, '0918798221', NULL, NULL, '06:01:04', 0, '2019-02-26 08:48:09', NULL, '2019-02-27 01:31:54', 1),
+(6, 'dieumii', 'mymy@email.com', '$2y$10$GCZk7XNK8wGsr1xlOSesFuXw5M9IdeBhJaK/ligYt.myAsH793B4y', NULL, '0918798221', NULL, NULL, '15:26:32', 2, '2019-02-26 08:48:09', NULL, '2019-03-13 08:26:32', 1),
 (7, 'dieumii', 'mymy@gmail.com', '$2y$10$x66VTY9N3RfZdbiG1bahGOYIIWR0PFnvJdTGRBc01y0ylKUXn8Mke', NULL, '1234567890', NULL, NULL, '15:48:05', 4, '2019-02-26 09:15:26', NULL, NULL, 0),
 (12, 'alibaba', 'test1@gmail.com', '$2y$10$KnyEur87stAXOBhikvlbPe6qxSa5HmR7jO0UO6tCwpcnUV1eALZlW', NULL, '1234567890', NULL, NULL, NULL, NULL, '2019-03-05 06:02:17', NULL, NULL, NULL),
 (9, 'dieumii', 'aaa@email.com', '$2y$10$dS4eQGC9hAKrYJKHUf.5FO9gNFuvGf6NkpdhDMlQjVwBACnwS4MCW', NULL, '1234567890', NULL, NULL, '15:44:10', 0, '2019-02-27 15:43:20', NULL, NULL, 1),
 (10, 'dieumii', 'aaaa@gmail.com', '$2y$10$xxT8U6O7XVtCD8SupWtvwOrjrTn.W/Zq7qJwC3GozVPhZTXEgU0B.', NULL, '1234567890', NULL, NULL, '15:44:39', 0, '2019-02-27 15:44:30', NULL, NULL, 1),
-(11, 'diệu my', 'test@gmail.com', '$2y$10$SoP5KfPJAJMgmu481nT/C.5fqzFOuMA24JcwPfs7TV.ukFZHIGUpS', NULL, '123456', NULL, NULL, '15:50:44', 0, '2019-02-27 15:48:54', NULL, '2019-02-27 08:50:08', 1),
-(13, 'uuuuuuu', 'test2@kgmail.com', '$2y$10$t.Ry4qLdVGlcn6wg0FMyfuxaEY.TuBxYJI3yXDz8vHEdZ85wX/eaG', NULL, '1234567890', NULL, NULL, NULL, NULL, '2019-03-05 06:07:27', NULL, NULL, NULL);
+(11, 'diệu my', 'test@gmail.com', '$2y$10$SoP5KfPJAJMgmu481nT/C.5fqzFOuMA24JcwPfs7TV.ukFZHIGUpS', NULL, '123456', NULL, NULL, '02:41:13', 0, '2019-02-27 15:48:54', NULL, '2019-03-11 19:41:13', 1),
+(13, 'uuuuuuu', 'test2@kgmail.com', '$2y$10$t.Ry4qLdVGlcn6wg0FMyfuxaEY.TuBxYJI3yXDz8vHEdZ85wX/eaG', NULL, '1234567890', NULL, NULL, NULL, NULL, '2019-03-05 06:07:27', NULL, NULL, NULL),
+(14, 'hoainamnam', 'namnam@gmail.com', '$2y$10$pYSwdULqlZgdWPpO2OGgUeYVDb28j/Y6EtbtLEyDtNwKf6UVrVHsW', NULL, '1234567890', NULL, NULL, '17:32:33', 0, '2019-04-01 17:31:40', NULL, '2019-04-01 10:32:33', 1);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

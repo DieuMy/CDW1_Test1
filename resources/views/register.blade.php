@@ -58,7 +58,7 @@
                              {{csrf_field()}}
                                 <div class="form-group">
                                     <label class="control-label">Email Address:</label>
-                                    <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email address">
+                                    <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email address"><div id="error"></div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">Password:</label>
