@@ -47,6 +47,18 @@
            <form action="{{route('edit')}}" method="POST" role="form">
            {{csrf_field()}}
                <legend>Thay đổi thông tin</legend>
+               <p>
+                    @if ($errors->any)
+                        
+                        @foreach ($errors->all() as $error )
+                        <p style="color:red">{{ $error}}</p>
+                        @endforeach
+
+                    @endif
+                    @if(session()->has('success'))
+                    <p style="color:green">{{session('success')}}</p>
+                    @endif
+                </p>
            
                 <input type="hidden" name="userid" value="{{$user['user_id']}}">
                <div class="form-group">

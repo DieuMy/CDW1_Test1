@@ -92,26 +92,14 @@ class UserController extends Controller
                 if(Auth::attempt(array('email'=>$email, 'password'=>$password))) {
                     Session::put('name',$data->user_name);
                     Session::put('login', TRUE);
-                    // DB::table('users')
-                    //     ->where('email', $email)
-                    //     ->update(['user_attempt' => 0,
-                    //         'user_last_access'=>date('Y-m-d H:i:s'), ]);
                     User::updateUser_Last_Attempt($email);
                     $a = Auth::user();
                     return view('/detail',compact('a'));
                 } else {
-                    // DB::table('users')
-                    //     ->where('email',$email)
-                    //     ->update(['user_attempt' => ($data->user_attempt)+1,
-                    //         'user_last_access'=>date('Y-m-d H:i:s'),]);
                     User::updateUser_Last_Attempt2($email,$data);
 
                     if (($data->user_attempt)+1 > 3 )
                     {
-                        // DB::table('users')
-                        //     ->where('email', $email)
-                        //     ->update(['user_active' => 0,
-                        //         'user_last_access'=>date('Y-m-d H:i:s'),]);
                         User::updateUser_Last_Attempt($email);
                         $errors = new MessageBag(['errorlogin' => 'Tài khoản đã bị khóa']);
                         return redirect()->back()->withInput()->withErrors($errors);
@@ -151,6 +139,6 @@ class UserController extends Controller
         } 
         $user->user_phone = $request->tel;
         $user->save();
-        return redirect()->route('update',['user_id'=>$request->userid])->with(['message'=> 'Update Success']);
+        return redirect()->route('update',['user_id'=>$request->userid])->with(['success'=> 'Update Success']);
     }    
 }

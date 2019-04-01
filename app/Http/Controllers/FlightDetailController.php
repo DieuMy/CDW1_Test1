@@ -94,13 +94,13 @@ class FlightDetailController extends Controller
             $org = $request->org;
             if(Flight::check_noidia($city1,$city2))
             {
-                //if(Flight::check_org_noidia($city1,$city2,$org)){
+                if(Flight::check_org_noidia($city1,$city2,$org)){
                      $flight->createFlight($request->all());
                      return redirect()->route('createflight')->with('success','Tạo chuyến bay nội địa thành công');
-                //}else
-                //{
+                }else
+                {
                     return redirect()->route('createflight')->with('error','Không thành công');
-                //}
+                }
             }else if(Flight::check_international($city1,$city2))
             {
                 $flight->createFlight($request->all());
@@ -109,8 +109,8 @@ class FlightDetailController extends Controller
             {
                 return redirect()->route('createflight')->with('error','Hai quốc gia này không thể bay trực tiếp');
             }
-            // $flight->createFlight($request->all());
-            // return redirect()->route('createflight')->with('success','Đăng ký thành công');
+            $flight->createFlight($request->all());
+            return redirect()->route('createflight')->with('success','Đăng ký thành công');
         }
     }
 

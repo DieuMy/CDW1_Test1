@@ -53,17 +53,17 @@
         }
         return false;
     }
-    // public static function check_org_noidia($city1, $city2, $org_id){
-    //     $city1 = City::find($city1);
-    //     $city2 = City::find($city2);
+    public static function check_org_noidia($city1, $city2, $org_id){
+        $city1 = CityList::find($city1);
+        $city2 = CityList::find($city2);
 
-    //     $nation_org_id = Orgs::find($org_id)->nation_id;
+        $nation_org_id = Orgs::find($org_id)->nation_id;
 
-    //     if ($city1->nation_id == $city2->nation_id && $city1->city_nation_id == $nation_airline_id){
-    //         return true;
-    //     }
-    //     return false;
-    // }
+        if ($city1->nation_id == $city2->nation_id && $city1->nation_id == $nation_org_id){
+            return true;
+        }
+        return false;
+    }
 
     public static function check_international($city1, $city2){
         $city1 = CityList::find($city1);
