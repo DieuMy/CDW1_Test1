@@ -1,6 +1,7 @@
 <?php 
     namespace App\Http\Models;
     use Illuminate\Database\Eloquent\Model;
+    use Illuminate\Support\Facades\Session;
     class Flight extends Model{
         protected $table = 'flight_details';
         protected $primaryKey = 'id';
@@ -12,7 +13,7 @@
 
         public function seeDetail($a)
         {
-        	return Flight::findOrFail($a);
+            return Flight::findOrFail($a);
         }
 
         public static function searchFlight($request)
@@ -26,7 +27,31 @@
                 ])
                 ->leftJoin('orgs','flight_details.org_id','=','orgs.id')
                 ->get();
+                // Session::put('time',$request->departure);   
         }
+
+        public static function getPrice($km)
+        {
+            $price = 0;
+
+            if (0 <= $km && $km <= 100) {
+                $price = 500000;
+            } else if (101 <= $km && $km <= 200) {
+                $price = 1000000;
+            } else if (201 <= $km && $km <= 500) {
+                $price = 2000000;
+            } else if (501 <= $km && $km <= 1000) {
+                $price = 3000000;
+            } else if (1001 <= $km && $km <= 2000) {
+                $price = 6000000;
+            } else if (2001 <= $km && $km <= 5000) {
+                $price = 20000000;
+            } else if ($km >= 5001) {
+                $price = 30000000;
+            }
+            return $price;
+        }
+
 
         public function createFlight($data)
         {

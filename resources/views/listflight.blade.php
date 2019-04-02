@@ -88,7 +88,7 @@
                                             <div><strong class="text-danger">{{$flight->transit}} Transit</strong></div>
                                         </div>
                                         <div class="col-sm-3 text-right">
-                                            <h3 class="price text-danger"><strong><?php echo $flight->price ?></strong></h3>
+                                            <h3 class="price text-danger"><strong>{{$price}}</strong></h3>
                                             <div>
                                                 <a href="{{route('flightdetail',['a' =>$flight->id])}}" class="btn btn-link">See Detail</a>
                                                 <a href="<?php echo url('/flightbook') ?>" class="btn btn-primary">Choose</a>

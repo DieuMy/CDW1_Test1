@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Models\FlightList;
 use App\Http\Models\CityList;
 use App\Http\Models\Flight;
+use Illuminate\Support\Facades\Session;
 use App\Http\Models\Orgs;
 use App\Http\Models\Airport;
 use Illuminate\Http\Request;
@@ -15,31 +16,25 @@ use Illuminate\Support\Facades\DB;
 class FlightDetailController extends Controller
 {
     public function showlistflight(Request $request){
-                $city_lists = new CityList();
-                // $flights = DB::table('flight_details')->where([
-                // ['from', $request->from],
-                // ['to', $request->to],
-                // ['time_start','>=',$request->departure],
-                // ['flight_type',$request->flight_type],
-
-                // ])
-                // ->leftJoin('orgs','flight_details.org_id','=','orgs.id')
-                // ->get();
+                $city_lists = new CityList();                
                 $flights = Flight::searchFlight($request);
-                 $city_list = $city_lists->showCity(); 
-                // $city_list = DB::table('city')->get();
-                // dd($flight_list);
-                return view('listflight', compact('flights', 'city_list'));
+                $city_list = $city_lists->showCity(); 
+                foreach($flights as $a)
+                {
+                    $a = $a->Km;
+                };
+                $price = Flight::getPrice($a);
+                return view('listflight', compact('flights', 'city_list','price'));
         
         }
 
     public function flight_detail($id){
         $a = new Flight();
         $q = $a->seeDetail($id);
+        $a = $q->Km;
+        $price = Flight::getPrice($a);
         $city = CityList::all();
-        // $s = new Orgs();
-        // $s::find($id);
-        return view('flightdetail',compact('q','city'));
+        return view('flightdetail',compact('q','city','price'));
     }
     /**
      * Display a listing of the resource.
@@ -59,10 +54,8 @@ class FlightDetailController extends Controller
     public function createFlight()
     {
          $citys = CityList::all();
-         //$city_list = $city_lists->showAirport(); 
          $orgs = Orgs::all();
         return view('createflight', compact('citys','orgs'));
-        //return view('createflight');
     }
 
     public function create_flight(Request $request)
