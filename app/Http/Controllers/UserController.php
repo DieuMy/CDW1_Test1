@@ -36,12 +36,6 @@ class UserController extends Controller
                         ->withErrors($validator)
                         ->withInput();
         }else{
-            // DB::table('users')->insert([
-            //     'email'=>$request->email,
-            //     'user_phone'=>$request->tel,
-            //     'password'=>bcrypt($request->password),
-            //     'user_name'=>$request->username,
-            // ]);
             $user->insertUser($request->all());
             return redirect()->route('create')->with('success','Đăng ký thành công');
         }
@@ -68,35 +62,36 @@ class UserController extends Controller
             $email = $request->input('email');
             $password = $request->input('password');
             $data = User::getFirstUser_ByEmail($email);// $data = User::where('email',$email)->first();
-            if(!$data)
-            {
-                $errors = new MessageBag(['errorlogin' => "Email or Password wrong"]);
-                return redirect()->back()->withErrors($validator)->withInput();
-            }else
-            {
+            //if(!$data)
+            //{
+                //$errors = new MessageBag(['errorlogin' => "Email or Password wrong"]);
+               // return redirect()->back()->withErrors($validator)->withInput();
+            //}else
+            //{
                 if($data->user_active == 0)
-            {
-                $minute = round((time() - strtotime( $data->user_last_access))/60);
-                if($minute <= 30)
                 {
-                    $errors = new MessageBag(['errorlogin' => "User blocked"]);
-                    return redirect()->back()->withInput()->withErrors($errors);
-                }else
-                {
-                    // DB::table('users')->where('email',$email)->update(['user_active' => 1, 'user_attempt' => 0, 'user_last_access' => date('Y-m-d H:i:s'),]);
-                    User::updateActive($email);
-                    return redirect()->back()->withInput();
-                }
+                    $minute = round((time() - strtotime($data->user_last_access))/60);
+                    if($minute <= 30)
+                    {
+                        $errors = new MessageBag(['errorlogin' => "User blocked"]);
+                        return redirect()->back()->withInput()->withErrors($errors);
+                    }else
+                    {
+                        // DB::table('users')->where('email',$email)->update(['user_active' => 1, 'user_attempt' => 0, 'user_last_access' => date('Y-m-d H:i:s'),]);
+                        User::updateActive($email);
+                        return redirect()->back()->withInput();
+                    }
             }else
             {
                 if(Auth::attempt(array('email'=>$email, 'password'=>$password))) {
                     Session::put('name',$data->user_name);
                     Session::put('login', TRUE);
-                    User::updateUser_Last_Attempt($email);
+                    //User::updateUser_Last_Attempt($email);
+                    User::updateActive($email);
                     $a = Auth::user();
                     return view('/detail',compact('a'));
                 } else {
-                    User::updateUser_Last_Attempt2($email,$data);
+                    User::updateUser_Last_Attempt2($email,$data->user_attempt);
 
                     if (($data->user_attempt)+1 > 3 )
                     {
@@ -108,7 +103,7 @@ class UserController extends Controller
                     return redirect()->back()->withInput()->withErrors($errors);
                 }
             }
-            }
+            //}
             
             
         }

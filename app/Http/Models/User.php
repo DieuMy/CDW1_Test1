@@ -29,12 +29,13 @@
         }
 
         public static function updateUser_Last_Attempt($email){
-             User::where('email',$email)->update(['user_attempt' => 0,
+             User::where('email',$email)->update(['user_active' => 0,
                             'user_last_access'=>date('Y-m-d H:i:s'), ]);
         }
 
+
          public static function updateUser_Last_Attempt2($email,$data){
-             User::where('email',$email)->update(['user_attempt' => ($data['user_attempt'])+1,
+             User::where('email',$email)->update(['user_attempt' => $data+1,
                             'user_last_access'=>date('Y-m-d H:i:s'),]);
         }
     }
