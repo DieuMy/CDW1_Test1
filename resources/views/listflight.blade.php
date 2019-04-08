@@ -29,7 +29,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#">Welcome message</a></li>
                         <li><a href="index.html">Flights</a></li>
-                        <li><a href="login.html">Log In</a></li>
+                        <a href="{{route('login')}}">Login</a>
                         <li><a href="{{route('create')}}">Register</a></li>
                         <li><a href="<?php echo url('listorg') ?>">Danh sách hãng bay</a></li>
                     </ul>
